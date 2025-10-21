@@ -128,17 +128,16 @@ elif page == "Biaya Pengobatan":
     st.plotly_chart(fig_box, use_container_width=True)
 
     # --- Bar Chart: Rata-rata biaya per rumah sakit ---
-    st.subheader("🏥 Rata-rata Biaya Pengobatan per Rumah Sakit (Bar Chart)")
-    avg_cost = df.groupby('Hospital')['Billing Amount'].mean().sort_values(ascending=False).reset_index()
-    fig_hosp = px.bar(
-        avg_cost,
-        x='Hospital',
-        y='Billing Amount',
-        title="Rata-rata Biaya Pengobatan per Rumah Sakit",
-        color='Billing Amount',
-        color_continuous_scale="Blues"
-    )
-    st.plotly_chart(fig_hosp, use_container_width=True)
+   fig = px.treemap(
+    avg_cost,
+    path=['Hospital'],
+    values='Billing Amount',
+    color='Billing Amount',
+    color_continuous_scale='Blues',
+    title='Proporsi Rata-rata Biaya Pengobatan per Rumah Sakit'
+)
+st.plotly_chart(fig, use_container_width=True)
+
 
     # --- Pie Chart: Distribusi Asuransi ---
     st.subheader("🧾 Proporsi Pasien Berdasarkan Penyedia Asuransi (Pie Chart)")
@@ -212,3 +211,4 @@ elif page == "Perbandingan Demografis Pasien":
 # ------------------------------------------------------------
 st.markdown("---")
 st.markdown("🩺 **Dashboard ini dibuat menggunakan Streamlit dan Plotly Express** — Menyajikan data kesehatan secara interaktif dan informatif.")
+
